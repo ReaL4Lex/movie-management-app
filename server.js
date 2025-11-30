@@ -6,7 +6,7 @@ app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
   console.log(`Visit: http://localhost:${PORT}`);
 });
-
+// Session configuration (REQUIREMENT 11, 12, 13)
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
 
