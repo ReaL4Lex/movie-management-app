@@ -36,4 +36,3 @@ async function testAtlasConnection() {
     }
 }
 
-testAtlasConnection();
