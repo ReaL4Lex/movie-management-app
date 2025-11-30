@@ -1,0 +1,11 @@
+extends layout
+
+block content
+  .error-container
+    h1 Oops! Something went wrong
+    h2= message
+
+    if error && error.stack && process.env.NODE_ENV === 'development'
+      pre.error-stack= error.stack
+
+    a.btn.btn-primary(href="/") Go Home

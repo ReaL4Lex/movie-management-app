@@ -1,0 +1,51 @@
+extends layout
+
+block content
+  .form-container
+    h2 Register
+    
+    form.form(method="POST", action="/register")
+      .form-group
+        label(for="username") Username
+        input#username.form-control(
+          type="text",
+          name="username",
+          required,
+          minlength="3",
+          maxlength="20",
+          placeholder="Enter username"
+        )
+      
+      .form-group
+        label(for="email") Email
+        input#email.form-control(
+          type="email",
+          name="email",
+          required,
+          placeholder="Enter email"
+        )
+      
+      .form-group
+        label(for="password") Password
+        input#password.form-control(
+          type="password",
+          name="password",
+          required,
+          minlength="6",
+          placeholder="Enter password"
+        )
+      
+      .form-group
+        label(for="confirmPassword") Confirm Password
+        input#confirmPassword.form-control(
+          type="password",
+          name="confirmPassword",
+          required,
+          placeholder="Confirm password"
+        )
+      
+      button.btn.btn-primary(type="submit") Register
+    
+    p.form-footer
+      | Already have an account? 
+      a(href="/login") Login here

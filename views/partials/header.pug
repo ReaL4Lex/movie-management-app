@@ -1,0 +1,15 @@
+header.header
+  nav.navbar
+    .nav-brand
+      a(href="/") 🎬 Movie Manager
+    
+    .nav-menu
+      a.nav-link(href="/movies") All Movies
+      
+      if user
+        a.nav-link(href="/movies/my/movies") My Movies
+        a.nav-link(href="/movies/add") Add Movie
+        a.nav-link(href="/logout") Logout
+      else
+        a.nav-link(href="/login") Login
+        a.nav-link(href="/register") Register

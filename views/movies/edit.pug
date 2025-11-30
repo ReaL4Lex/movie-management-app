@@ -1,0 +1,76 @@
+extends ../layout
+
+block content
+  .form-container
+    h2 Edit Movie
+    
+    form.form(method="POST", action=`/movies/${movie._id}?_method=PUT`)
+      .form-group
+        label(for="name") Movie Name *
+        input#name.form-control(
+          type="text",
+          name="name",
+          required,
+          maxlength="200",
+          value=movie.name
+        )
+      
+      .form-group
+        label(for="description") Description *
+        textarea#description.form-control(
+          name="description",
+          required,
+          minlength="10",
+          maxlength="1000",
+          rows="5"
+        )= movie.description
+      
+      .form-group
+        label(for="year") Year *
+        input#year.form-control(
+          type="number",
+          name="year",
+          required,
+          min="1888",
+          max=new Date().getFullYear() + 5,
+          value=movie.year
+        )
+      
+      .form-group
+        label Genres * (Select at least one)
+        .checkbox-group
+          - const genresList = ['Action', 'Comedy', 'Drama', 'Horror', 'Sci-Fi', 'Romance', 'Thriller', 'Animation', 'Documentary']
+          each genreOption in genresList
+            label.checkbox-label
+              input(
+                type="checkbox",
+                name="genres",
+                value=genreOption,
+                checked=movie.genres.includes(genreOption)
+              )
+              |  #{genreOption}
+      
+      .form-group
+        label(for="rating") Rating * (0-10)
+        input#rating.form-control(
+          type="number",
+          name="rating",
+          required,
+          min="0",
+          max="10",
+          step="0.1",
+          value=movie.rating
+        )
+
+      .form-group
+        label(for="image") Movie Image URL
+        input#image.form-control(
+          type="url",
+          name="image",
+          value=movie.image
+        )
+        small.form-text.text-muted Optional: Enter a URL for the movie poster image
+
+      .form-actions
+        button.btn.btn-primary(type="submit") Update Movie
+        a.btn.btn-secondary(href=`/movies/${movie._id}`) Cancel

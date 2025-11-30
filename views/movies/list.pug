@@ -1,0 +1,36 @@
+extends ../layout
+
+block content
+  .movies-header
+    h2= title
+    if user && !myMovies
+      a.btn.btn-primary(href="/movies/add") Add New Movie
+  
+  if movies.length === 0
+    .empty-state
+      p No movies found.
+      if user
+        a.btn.btn-primary(href="/movies/add") Add Your First Movie
+  else
+    .movies-grid
+      each movie in movies
+        .movie-card
+          .movie-header
+            .movie-image
+              img(src=movie.image, alt=`${movie.name} poster`, onerror="this.src='/images/default-movie.jpg'")
+            h3
+              a(href=`/movies/${movie._id}`)= movie.name
+            .movie-rating ⭐ #{movie.rating}/10
+
+          .movie-info
+            p.movie-year 📅 #{movie.year}
+            p.movie-genres
+              each genre in movie.genres
+                span.genre-tag= genre
+
+          p.movie-description= movie.description.substring(0, 150) + (movie.description.length > 150 ? '...' : '')
+
+          .movie-footer
+            p.movie-owner Posted by: #{movie.owner.username}
+            .movie-actions
+              a.btn.btn-small(href=`/movies/${movie._id}`) View Details

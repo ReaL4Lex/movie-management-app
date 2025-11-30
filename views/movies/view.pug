@@ -1,0 +1,41 @@
+extends ../layout
+
+block content
+  .movie-detail
+    .movie-detail-header
+      .movie-poster
+        img(src=movie.image, alt=`${movie.name} poster`, onerror="this.src='/images/default-movie.jpg'")
+      .movie-info-header
+        h2= movie.name
+    
+    .movie-detail-info
+      p.movie-year
+        strong Year:
+        | #{movie.year}
+
+      p.movie-genres
+        strong Genres:
+        each genre, index in movie.genres
+          span.genre-tag= genre
+          if index < movie.genres.length - 1
+            | ,
+
+      p.movie-owner
+        strong Posted by:
+        | #{movie.owner.username}
+
+      p.movie-date
+        strong Added on:
+        | #{new Date(movie.createdAt).toLocaleDateString()}
+    
+    .movie-description
+      h3 Description
+      p.movie-description-text= movie.description
+    
+    .movie-actions
+      a.btn.btn-secondary(href="/movies") Back to Movies
+      
+      if isOwner
+        a.btn.btn-primary(href=`/movies/${movie._id}/edit`) Edit Movie
+        form.delete-form(method="POST", action=`/movies/${movie._id}/delete`, onsubmit="return confirm('Are you sure you want to delete this movie?');")
+          button.btn.btn-danger(type="submit") Delete Movie

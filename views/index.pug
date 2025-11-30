@@ -1,0 +1,31 @@
+extends layout
+
+block content
+  .hero
+    h1 Welcome to Movie Manager
+    p Manage your favorite movies collection with ease
+    
+    .hero-buttons
+      if user
+        a.btn.btn-primary(href="/movies") Browse Movies
+        a.btn.btn-secondary(href="/movies/add") Add Movie
+      else
+        a.btn.btn-primary(href="/register") Get Started
+        a.btn.btn-secondary(href="/login") Login
+  
+  .features
+    .feature-card
+      h3 📝 Add Movies
+      p Create and manage your movie collection with detailed information
+    
+    .feature-card
+      h3 🔍 Browse & Search
+      p Explore movies added by the community
+    
+    .feature-card
+      h3 ✏️ Edit & Delete
+      p Full control over your movie entries
+    
+    .feature-card
+      h3 🔒 Secure
+      p Your movies are protected with authentication
