@@ -2,14 +2,14 @@ const mongoose = require('mongoose');
 
 const connectDB = async () => {
     try {
-        const conn = await mongoose.connect('mongodb+srv://MovieManagement:adminadmin@cluster0.4vderdr.mongodb.net/movieapp?retryWrites=true&w=majority', {
+        const conn = await mongoose.connect(process.env.MONGODB_URI, {
             useNewUrlParser: true,
             useUnifiedTopology: true,
         });
 
         console.log(`✅ MongoDB Atlas Connected: ${conn.connection.host}`);
 
-        // Week 4 - Event handling
+        // Event handling
         mongoose.connection.on('error', (err) => {
             console.error('❌ MongoDB connection error:', err);
         });

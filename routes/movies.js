@@ -106,7 +106,7 @@ router.get('/:id/edit', ensureAuthenticated, checkMovieOwnership, (req, res) => 
   });
 });
 
-router.post('/:id/edit', ensureAuthenticated, checkMovieOwnership, async (req, res) => {
+router.put('/:id', ensureAuthenticated, checkMovieOwnership, async (req, res) => {
   try {
     const { name, description, year, genres, rating, image } = req.body;
 
