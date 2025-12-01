@@ -218,9 +218,122 @@ use movie-management
 db.dropDatabase()
 ```
 
-## Production Deployment
+## Production Deployment to Heroku
 
-See [README.md](README.md) for Heroku deployment instructions.
+### Prerequisites
+- Heroku account (free tier available)
+- Heroku CLI installed
+- MongoDB Atlas account (for production database)
+
+### Step-by-Step Heroku Deployment
+
+1. **Install Heroku CLI** (if not already installed):
+   ```bash
+   # macOS with Homebrew
+   brew tap heroku/brew && brew install heroku
+
+   # Windows
+   # Download from https://devcenter.heroku.com/articles/heroku-cli
+
+   # Linux
+   curl https://cli-assets.heroku.com/install.sh | sh
+   ```
+
+2. **Login to Heroku**:
+   ```bash
+   heroku login
+   ```
+
+3. **Create a new Heroku app**:
+   ```bash
+   heroku create your-movie-app-name
+   ```
+   Replace `your-movie-app-name` with a unique name for your app.
+
+4. **Set up MongoDB Atlas for production**:
+   - Go to [MongoDB Atlas](https://www.mongodb.com/cloud/atlas)
+   - Create a new cluster (M0 free tier is fine)
+   - Create a database user
+   - Whitelist IP addresses (add `0.0.0.0/0` for all IPs)
+   - Get your connection string
+
+5. **Configure environment variables**:
+   ```bash
+   heroku config:set MONGODB_URI="your_mongodb_atlas_connection_string"
+   heroku config:set SESSION_SECRET="your_production_secret_key_here"
+   heroku config:set NODE_ENV="production"
+   ```
+
+6. **Deploy your application**:
+   ```bash
+   git add .
+   git commit -m "Ready for production deployment"
+   git push heroku main
+   ```
+
+7. **Open your deployed app**:
+   ```bash
+   heroku open
+   ```
+
+### Post-Deployment Configuration
+
+1. **Scale your dyno** (if needed):
+   ```bash
+   heroku ps:scale web=1
+   ```
+
+2. **View logs** (for troubleshooting):
+   ```bash
+   heroku logs --tail
+   ```
+
+3. **Update environment variables** (if needed):
+   ```bash
+   heroku config:set VARIABLE_NAME="value"
+   ```
+
+### Heroku-Specific Notes
+
+- **Procfile**: The `Procfile` in your project root tells Heroku how to run your app
+- **Port**: Heroku assigns a random port via the `PORT` environment variable (handled in `server.js`)
+- **Sessions**: Session store is configured to work with Heroku's ephemeral filesystem
+- **Static Files**: Served efficiently by Express.js static middleware
+
+### Troubleshooting Heroku Deployment
+
+**App crashes on startup**:
+- Check logs: `heroku logs --tail`
+- Verify MongoDB Atlas connection string
+- Ensure all dependencies are in `package.json`
+
+**Database connection fails**:
+- Verify MongoDB Atlas IP whitelist includes `0.0.0.0/0`
+- Check database user credentials
+- Ensure cluster is running
+
+**Environment variables not set**:
+- Use `heroku config` to list current variables
+- Set missing variables with `heroku config:set`
+
+### Cost Optimization
+
+- **Free Tier**: Heroku provides 550 free dyno hours/month
+- **Database**: MongoDB Atlas M0 cluster is free (512MB storage)
+- **Scaling**: Only scale when needed to control costs
+
+### Maintenance
+
+**Update your app**:
+```bash
+git add .
+git commit -m "Update message"
+git push heroku main
+```
+
+**Backup database**: Use MongoDB Atlas backup features
+
+**Monitor usage**: Check Heroku dashboard for dyno hours and MongoDB Atlas for database usage
 
 ## Need Help?
 

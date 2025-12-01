@@ -154,6 +154,82 @@ movie-management-app/
 - `PUT /movies/:id` - Update movie
 - `DELETE /movies/:id` - Delete movie
 
+## API Usage
+
+The application provides RESTful API endpoints for managing movies and user authentication. Below are examples using curl commands. Note that some endpoints require authentication (session cookies).
+
+### Authentication Endpoints
+
+#### Register a New User
+```bash
+curl -X POST http://localhost:3000/register \
+  -H "Content-Type: application/x-www-form-urlencoded" \
+  -d "username=john_doe&email=john@example.com&password=securepass&confirmPassword=securepass"
+```
+
+#### Login
+```bash
+curl -X POST http://localhost:3000/login \
+  -H "Content-Type: application/x-www-form-urlencoded" \
+  -d "email=john@example.com&password=securepass" \
+  -c cookies.txt
+```
+Save cookies to `cookies.txt` for authenticated requests.
+
+#### Logout
+```bash
+curl -X GET http://localhost:3000/logout \
+  -b cookies.txt
+```
+
+### Movie Endpoints
+
+#### Get All Movies
+```bash
+curl -X GET http://localhost:3000/movies
+```
+
+#### Get User's Movies (Authenticated)
+```bash
+curl -X GET http://localhost:3000/movies/my-movies \
+  -b cookies.txt
+```
+
+#### Add a New Movie (Authenticated)
+```bash
+curl -X POST http://localhost:3000/movies/add \
+  -H "Content-Type: application/x-www-form-urlencoded" \
+  -d "name=Inception&description=A mind-bending thriller&year=2010&genres=Sci-Fi,Thriller&rating=9.0" \
+  -b cookies.txt
+```
+
+#### Get Movie Details
+```bash
+curl -X GET http://localhost:3000/movies/60d5ecb74b24c72b8c8b4567
+```
+Replace `60d5ecb74b24c72b8c8b4567` with actual movie ID.
+
+#### Edit Movie (Authenticated, Owner Only)
+```bash
+curl -X PUT http://localhost:3000/movies/60d5ecb74b24c72b8c8b4567 \
+  -H "Content-Type: application/x-www-form-urlencoded" \
+  -d "name=Inception (Updated)&description=Updated description&year=2010&genres=Sci-Fi,Thriller&rating=9.5" \
+  -b cookies.txt
+```
+
+#### Delete Movie (Authenticated, Owner Only)
+```bash
+curl -X DELETE http://localhost:3000/movies/60d5ecb74b24c72b8c8b4567 \
+  -b cookies.txt
+```
+
+### Notes
+- Authentication endpoints return HTML forms for GET requests and handle form submissions for POST.
+- Movie endpoints requiring authentication will redirect to login if not authenticated.
+- Use `-b cookies.txt` to include session cookies for authenticated requests.
+- Replace `localhost:3000` with your deployed URL when using in production.
+- Movie IDs are MongoDB ObjectIds (24-character hexadecimal strings).
+
 ## Deployment to Heroku
 
 1. Create a Heroku account and install Heroku CLI

@@ -147,8 +147,8 @@ movie-management-app/
 
 ## 📚 Documentation Provided
 
-1. **README.md** - Complete project documentation
-2. **SETUP_GUIDE.md** - Detailed setup instructions
+1. **README.md** - Complete project documentation with API usage examples and Heroku deployment
+2. **SETUP_GUIDE.md** - Detailed setup instructions with integrated Heroku deployment guide
 3. **QUICK_START.md** - Fast setup guide
 4. **PROJECT_SUMMARY.md** - Project overview
 5. **TESTING_CHECKLIST.md** - Comprehensive testing guide
