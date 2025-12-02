@@ -21,8 +21,9 @@ block content
             | ,
 
       p.movie-owner
+        - const ownerName = movie.owner && movie.owner.username ? movie.owner.username : 'Unknown'
         strong Posted by:
-        | #{movie.owner.username}
+        | #{ownerName}
 
       p.movie-date
         strong Added on:

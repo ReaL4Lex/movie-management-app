@@ -73,7 +73,23 @@ router.post('/add', ensureAuthenticated, async (req, res) => {
   }
 });
 
-// REQUIREMENT 6: Movie details with ID param
+// User's movies
+router.get('/my/movies', ensureAuthenticated, async (req, res) => {
+  try {
+    const movies = await Movie.find({ owner: req.session.userId }).sort({ createdAt: -1 });
+    res.render('movies/list', {
+      title: 'My Movies',
+      movies: movies,
+      myMovies: true
+    });
+  } catch (error) {
+    console.error(error);
+    req.flash('error', 'Error loading your movies');
+    res.redirect('/movies');
+  }
+});
+
+//  Movie details with ID param
 router.get('/:id', async (req, res) => {
   try {
     const movie = await Movie.findById(req.params.id).populate('owner', 'username');
@@ -138,22 +154,6 @@ router.post('/:id/delete', ensureAuthenticated, checkMovieOwnership, async (req,
   } catch (error) {
     console.error(error);
     req.flash('error', 'Error deleting movie');
-    res.redirect('/movies');
-  }
-});
-
-// User's movies
-router.get('/my/movies', ensureAuthenticated, async (req, res) => {
-  try {
-    const movies = await Movie.find({ owner: req.session.userId }).sort({ createdAt: -1 });
-    res.render('movies/list', {
-      title: 'My Movies',
-      movies: movies,
-      myMovies: true
-    });
-  } catch (error) {
-    console.error(error);
-    req.flash('error', 'Error loading your movies');
     res.redirect('/movies');
   }
 });

@@ -31,6 +31,7 @@ block content
           p.movie-description= movie.description.substring(0, 150) + (movie.description.length > 150 ? '...' : '')
 
           .movie-footer
-            p.movie-owner Posted by: #{movie.owner.username}
+            - const ownerName = movie.owner && movie.owner.username ? movie.owner.username : 'Unknown'
+            p.movie-owner Posted by: #{ownerName}
             .movie-actions
               a.btn.btn-small(href=`/movies/${movie._id}`) View Details
